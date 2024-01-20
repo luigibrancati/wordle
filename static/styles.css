@@ -1,0 +1,152 @@
+.Win {
+	color: #6aaa64;
+}
+
+.AppHeader-module_appHeader {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+	flex-wrap: nowrap;
+	padding: 0px;
+	height: 50px;
+	color: black;
+	border-bottom: 1px solid #d3d6da;
+}
+
+.AppHeader-module_appHeader .AppHeader-module_title {
+	text-align: center;
+	width: 100%;
+	font-family: "nyt-karnakcondensed";
+}
+
+.App-module_game {
+	width: 100%;
+	max-width: 500;
+	margin: 0 auto;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.Board-module_boardContainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+}
+
+.Board-module_board {
+	display: grid;
+	grid-template-rows: repeat(6, 1fr);
+	grid-gap: 5px;
+	padding: 10px;
+	box-sizing: border-box;
+	width: 300px;
+	height: 360px;
+}
+
+.Row-module_row {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	grid-gap: 5px;
+    float: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.Tile-module_tile {
+	font-family: "nyt-franklin";
+	width: 100%;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 1em;
+	line-height: 1;
+	font-weight: bold;
+	vertical-align: middle;
+	box-sizing: border-box;
+	text-transform: uppercase;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+    border: 2px solid #d3d6da;
+    margin: 0;
+    padding: 0;
+}
+
+.Tile-module_tile[data-state="empty"] {
+	background-color: white;
+	color: white;
+}
+
+.Tile-module_tile[data-state="tbd"] {
+	background-color: white;
+	color: black;
+}
+
+.Key-module_half {
+	flex: .5;
+}
+
+.Keyboard-module_row {
+	display: flex;
+	width: 100%;
+	margin: 0 auto 8px;
+	touch-action: manipulation;
+}
+
+.Keyboard-module_keyboard {
+	height: 200px;
+	margin: 0 8px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+
+.Keyboard-module_key {
+	font-family: "nyt-franklin";
+	font-size: 1.25em;
+	font-weight: bold;
+	border: 0;
+	padding: 0 5px;
+	margin: 0 6px 0 0;
+	height: 58px;
+	border-radius: 4px;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-transform: uppercase;
+	-webkit-tap-highlight-color: rgba(0,0,0,.3);
+	text-decoration: none;
+}
+
+.Keyboard-module_key[data-state="tbd"] {
+	background-color: #d3d6da;
+	color: black;
+}
+
+.Tile-module_tile[data-state="present"], .Keyboard-module_key[data-state="present"] {
+	background-color: #c9b458;
+	color: black;
+}
+
+.Tile-module_tile[data-state="correct"], .Keyboard-module_key[data-state="correct"] {
+	background-color: #6aaa64;
+	color: black;
+}
+
+.Tile-module_tile[data-state="absent"], .Keyboard-module_key[data-state="absent"] {
+	background-color: #787c7e;
+	color: white;
+}
+
+button, [type="button"], [type="reset"], [type="submit"] {
+	-webkit-appearance: button;
+}
