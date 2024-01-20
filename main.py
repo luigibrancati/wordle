@@ -6,12 +6,11 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse
 from wordle_status import WordleStatus
 
+
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 qwerty_keyboard_keys = [['q', 'w', 'e', 'r', 't','y','u','i','o','p'],['a','s','d','f','g','h','j','k','l'],['z','x','c','v','b','n','m']]
-
-
 wordle_status = WordleStatus()
 
 
