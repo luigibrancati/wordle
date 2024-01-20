@@ -1,0 +1,17 @@
+<div class="Board-module_boardContainer">
+    <div class="Board-module_board">
+        {% for i in range(status.num_rows) %}
+        <div class="Row-module_row" aria-label="Row {{i + 1}}">
+            {% for j in range(status.num_columns) %}
+            <div class="Tile-module_tile" aria-label="Tile {{j}}" data-testid="tile" data-state="{{ status.letter_status[i][j].value }}">
+                {% if status.words[i][j] is none %}
+                    ''
+                {% else %}
+                    {{status.words[i][j]}}
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
