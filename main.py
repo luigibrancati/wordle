@@ -38,15 +38,16 @@ class WordleStatus:
         self.present_letters = set()
         self.correct_letters = set()
         self.won = False
+        self.finished = False
 
     def add_letter(self, letter: str) -> None:
-        if self.curr_column < 5:
+        if self.curr_column < 5 and not self.finished:
             self.words[self.curr_row][self.curr_column] = letter
             self.letter_status[self.curr_row][self.curr_column] = LetterResult.TBD
             self.curr_column += 1
 
     def remove_last_letter(self) -> None:
-        if self.words[self.curr_row][0] is not None:
+        if self.words[self.curr_row][0] is not None and not self.finished:
             self.curr_column -= 1
             self.words[self.curr_row][self.curr_column] = None
             self.letter_status[self.curr_row][self.curr_column] = LetterResult.EMPTY
@@ -61,7 +62,7 @@ class WordleStatus:
         return LetterResult.TBD
 
     def check_last_word(self) -> None:
-        if self.curr_column == self.num_columns:
+        if self.curr_column == self.num_columns and not self.finished:
             word = "".join(self.words[self.curr_row])
             if word in self.word_list:
                 for i, letter in enumerate(word):
@@ -81,10 +82,25 @@ class WordleStatus:
                         self.abset_letters.add(letter)
                 if word == self.solution:
                     print("Won")
+                    self.finished = True
                     self.won = True
                     return
                 self.curr_row += 1
                 self.curr_column = 0
+            if self.curr_row == self.num_rows:
+                self.finished = True
+    
+    def reset(self):
+        self.solution = self.word_list[random.randint(0, len(self.word_list) - 1)]
+        self.curr_row = 0
+        self.curr_column = 0
+        self.words = {i:[None]*self.num_columns for i in range(self.num_rows)}
+        self.letter_status = {i:[LetterResult.EMPTY]*self.num_columns for i in range(self.num_rows)}
+        self.abset_letters = set()
+        self.present_letters = set()
+        self.correct_letters = set()
+        self.won = False
+        self.finished = False
 
 
 wordle_status = WordleStatus()
@@ -116,6 +132,13 @@ async def check_word(request: Request):
 @app.get("/remove_letter", response_class=HTMLResponse)
 async def remove_letter(request: Request):
     wordle_status.remove_last_letter()
+    return templates.TemplateResponse(
+        request=request, name="index.html", context={"status": wordle_status, "keys": qwerty_keyboard_keys}
+    )
+
+@app.get("/reset", response_class=HTMLResponse)
+async def reset(request: Request):
+    wordle_status.reset()
     return templates.TemplateResponse(
         request=request, name="index.html", context={"status": wordle_status, "keys": qwerty_keyboard_keys}
     )

@@ -2,6 +2,10 @@
 	color: #6aaa64;
 }
 
+.Lose {
+	color: red;
+}
+
 .AppHeader-module_appHeader {
 	display: flex;
 	flex-direction: row;
