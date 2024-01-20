@@ -49,26 +49,29 @@ class WordleStatus:
         if letter in self.correct_letters:
             return LetterResult.CORRECT
         return LetterResult.TBD
+    
+    def word_status(self, word):
+        for i, letter in enumerate(word):
+            if letter in self.solution:
+                if letter == self.solution[i]:
+                    self.letter_status[self.curr_row][i] = LetterResult.CORRECT
+                    self.correct_letters.add(letter)
+                    try:
+                        self.present_letters.remove(letter)
+                    except KeyError:
+                        continue
+                else:
+                    self.letter_status[self.curr_row][i] = LetterResult.PRESENT
+                    self.present_letters.add(letter)
+            else:
+                self.letter_status[self.curr_row][i] = LetterResult.ABSENT
+                self.abset_letters.add(letter)
 
     def check_last_word(self) -> None:
         if self.curr_column == self.num_columns and not self.finished:
             word = "".join(self.words[self.curr_row])
             if word in self.word_list:
-                for i, letter in enumerate(word):
-                    if letter in self.solution:
-                        if letter == self.solution[i]:
-                            self.letter_status[self.curr_row][i] = LetterResult.CORRECT
-                            self.correct_letters.add(letter)
-                            try:
-                                self.present_letters.remove(letter)
-                            except KeyError:
-                                continue
-                        else:
-                            self.letter_status[self.curr_row][i] = LetterResult.PRESENT
-                            self.present_letters.add(letter)
-                    else:
-                        self.letter_status[self.curr_row][i] = LetterResult.ABSENT
-                        self.abset_letters.add(letter)
+                self.word_status(word)
                 if word == self.solution:
                     print("Won")
                     self.finished = True
