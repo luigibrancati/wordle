@@ -16,7 +16,7 @@ class WordleStatus:
     num_rows = 6
 
     def __init__(self):
-        filepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "words.txt")
+        filepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static/words.txt")
         self.word_list = [w[:-1] for w in open(filepath, "r").readlines()]
         self.solution = self.word_list[random.randint(0, len(self.word_list) - 1)]
         self.curr_row = 0
@@ -50,7 +50,7 @@ class WordleStatus:
             return LetterResult.CORRECT
         return LetterResult.TBD
     
-    def word_status(self, word):
+    def _word_status(self, word):
         for i, letter in enumerate(word):
             if letter in self.solution:
                 if letter == self.solution[i]:
@@ -71,7 +71,7 @@ class WordleStatus:
         if self.curr_column == self.num_columns and not self.finished:
             word = "".join(self.words[self.curr_row])
             if word in self.word_list:
-                self.word_status(word)
+                self._word_status(word)
                 if word == self.solution:
                     print("Won")
                     self.finished = True
