@@ -5,6 +5,7 @@ from fastapi.requests import Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse
 from wordle_status import WordleStatus
+from fastapi import status
 
 
 app = FastAPI()
@@ -21,25 +22,25 @@ async def show_board(request: Request):
     )
 
 
-@app.get("/add_letter/{letter}", response_class=RedirectResponse)
+@app.post("/add_letter/{letter}", response_class=RedirectResponse)
 async def add_letter(letter: str):
     wordle_status.add_letter(letter)
-    return RedirectResponse("/")
+    return RedirectResponse("/", status_code=status.HTTP_302_FOUND)
 
 
-@app.get("/check_word", response_class=RedirectResponse)
+@app.post("/check_word", response_class=RedirectResponse)
 async def check_word():
     wordle_status.check_last_word()
-    return RedirectResponse("/")
+    return RedirectResponse("/", status_code=status.HTTP_302_FOUND)
 
 
-@app.get("/remove_letter", response_class=RedirectResponse)
+@app.post("/remove_letter", response_class=RedirectResponse)
 async def remove_letter():
     wordle_status.remove_last_letter()
-    return RedirectResponse("/")
+    return RedirectResponse("/", status_code=status.HTTP_302_FOUND)
 
 
-@app.get("/reset", response_class=RedirectResponse)
+@app.post("/reset", response_class=RedirectResponse)
 async def reset():
     wordle_status.reset()
-    return RedirectResponse("/")
+    return RedirectResponse("/", status_code=status.HTTP_302_FOUND)
