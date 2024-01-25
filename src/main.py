@@ -11,14 +11,13 @@ from fastapi import status
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
-qwerty_keyboard_keys = [['q', 'w', 'e', 'r', 't','y','u','i','o','p'],['a','s','d','f','g','h','j','k','l'],['z','x','c','v','b','n','m']]
 wordle_status = WordleStatus()
 
 
 @app.get("/", response_class=HTMLResponse)
 async def show_board(request: Request):
     return templates.TemplateResponse(
-        request=request, name="index.html", context={"status": wordle_status, "keys": qwerty_keyboard_keys}
+        request=request, name="index.html", context={"status": wordle_status}
     )
 
 
