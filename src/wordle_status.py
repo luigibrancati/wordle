@@ -18,15 +18,15 @@ class WordleStatus:
         self.solution = words.random_world()
         self.curr_row = 0
         self.curr_column = 0
-        self.grid_letters = {row:[None]*self.num_columns for row in range(self.num_rows)}
-        self.grid_letters_status = {row:[LetterResult.EMPTY]*self.num_columns for row in range(self.num_rows)}
+        self.grid_letters = {row: [None]*self.num_columns for row in range(self.num_rows)}
+        self.grid_letters_status = {row: [LetterResult.EMPTY]*self.num_columns for row in range(self.num_rows)}
         self.abset_letters = set()
         self.present_letters = set()
         self.correct_letters = set()
         self.won = False
         self.finished = False
 
-    def add_letter(self, letter: str) -> None:
+    def add_letter(self, letter:str) -> None:
         if self.curr_column < 5 and not self.finished:
             self.grid_letters[self.curr_row][self.curr_column] = letter
             self.grid_letters_status[self.curr_row][self.curr_column] = LetterResult.TBD
@@ -38,7 +38,7 @@ class WordleStatus:
             self.grid_letters[self.curr_row][self.curr_column] = None
             self.grid_letters_status[self.curr_row][self.curr_column] = LetterResult.EMPTY
 
-    def letter_state(self, letter: str) -> LetterResult:
+    def letter_state(self, letter:str) -> LetterResult:
         if letter in self.abset_letters:
             return LetterResult.ABSENT
         if letter in self.present_letters:
@@ -46,17 +46,15 @@ class WordleStatus:
         if letter in self.correct_letters:
             return LetterResult.CORRECT
         return LetterResult.TBD
-    
-    def _word_status(self, word) -> None:
+
+    def _update_word_status(self, word:str) -> None:
         for i, letter in enumerate(word):
             if letter in self.solution:
                 if letter == self.solution[i]:
                     self.grid_letters_status[self.curr_row][i] = LetterResult.CORRECT
                     self.correct_letters.add(letter)
-                    try:
+                    if letter in self.present_letters:
                         self.present_letters.remove(letter)
-                    except KeyError:
-                        continue
                 else:
                     self.grid_letters_status[self.curr_row][i] = LetterResult.PRESENT
                     self.present_letters.add(letter)
@@ -64,21 +62,34 @@ class WordleStatus:
                 self.grid_letters_status[self.curr_row][i] = LetterResult.ABSENT
                 self.abset_letters.add(letter)
 
-    def check_last_word(self) -> None:
-        if self.curr_column == self.num_columns and not self.finished:
-            word = "".join(self.grid_letters[self.curr_row])
+    def last_word(self) -> str:
+        if None in self.grid_letters[self.curr_row]:
+            return ""
+        return "".join(self.grid_letters[self.curr_row])
+
+    def last_word_in_wordlist(self) -> bool:
+        word = self.last_word()
+        return words.is_in_wordlist(word)
+
+    def last_word_complete(self) -> bool:
+        return self.curr_column == self.num_columns
+
+    def check_last_word(self) -> bool:
+        if self.last_word_complete() and not self.finished:
+            word = self.last_word()
             if words.is_in_wordlist(word):
-                self._word_status(word)
+                self._update_word_status(word)
                 if word == self.solution:
                     print("Won")
                     self.finished = True
                     self.won = True
+                    self.last_word_wrong = False
                     return
                 self.curr_row += 1
                 self.curr_column = 0
-            if self.curr_row == self.num_rows:
-                self.finished = True
-    
+                if self.curr_row == self.num_rows:
+                    self.finished = True
+
     def reset(self) -> None:
         self.solution = words.random_world()
         self.curr_row = 0

@@ -1,3 +1,15 @@
+@keyframes vibrate {
+	0% { transform: translate(0, 0); }
+	25% { transform: translate(0, -5px); }
+	50% { transform: translate(0, 5px); }
+	75% { transform: translate(0, -5px); }
+	100% { transform: translate(0, 5px); }
+}
+
+div[animation_key="wrong_word"] {
+	animation: vibrate 0.5s linear 0s 1 alternate;
+}
+
 .Win {
 	color: #6aaa64;
 }
@@ -58,6 +70,17 @@
     margin: 0;
     padding: 0;
     border: 0;
+}
+
+.Row-module_row_current {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	grid-gap: 5px;
+    float: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+	background-color: red;
 }
 
 .Tile-module_tile {
