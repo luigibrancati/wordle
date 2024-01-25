@@ -3,11 +3,11 @@
         {% for i in range(status.num_rows) %}
         <div class="Row-module_row" aria-label="Row {{i + 1}}">
             {% for j in range(status.num_columns) %}
-            <div class="Tile-module_tile" aria-label="Tile {{j}}" data-testid="tile" data-state="{{ status.letter_status[i][j].value }}">
-                {% if status.words[i][j] is none %}
+            <div class="Tile-module_tile" aria-label="Tile {{j}}" data-testid="tile" data-state="{{ status.grid_letters_status[i][j].value }}">
+                {% if status.grid_letters[i][j] is none %}
                     ''
                 {% else %}
-                    {{status.words[i][j]}}
+                    {{status.grid_letters[i][j]}}
                 {% endif %}
             </div>
             {% endfor %}
