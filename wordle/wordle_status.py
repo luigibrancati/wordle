@@ -1,5 +1,5 @@
 from enum import Enum
-from words import words
+from .words import words
 
 
 class LetterResult(Enum):

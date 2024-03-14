@@ -1,5 +1,4 @@
-from database import Base
-from sqlalchemy.orm import validates
+from .database import Base
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
@@ -8,13 +7,7 @@ class User(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String, unique=True, index=True)
-    games = relationship("Game", back_populates="owner")
-
-    @validates('name')
-    def _(name: str):
-        if len(name) < 3:
-            raise ValueError('name is too short')
-        return name.lower()    
+    games = relationship("Game", back_populates="player")
 
 
 class Game(Base):
@@ -25,3 +18,4 @@ class Game(Base):
     steps = Column(String, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
     player = relationship("User", back_populates="games")
+

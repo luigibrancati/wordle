@@ -4,11 +4,12 @@ from fastapi.responses import HTMLResponse
 from fastapi.requests import Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse
-from wordle_status import WordleStatus
 from fastapi import status
 import os
-from . import crud, models, schemas
-from .database import SessionLocal, engine
+from .db import crud, models
+from .db.database import SessionLocal, engine
+from . import schemas
+from .wordle_status import WordleStatus
 from sqlalchemy.orm import Session
 
 app = FastAPI()
@@ -60,9 +61,36 @@ async def reset():
     return RedirectResponse("/", status_code=status.HTTP_302_FOUND)
 
 
-@app.post("/create_user", response_model=schemas.User)
-async def create_user(user: schemas.User, db: Session = Depends(get_db)):
+@app.post("/users", response_model=schemas.User)
+async def create_user(user: schemas.UserBase, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_name(db, name=user.name)
     if db_user:
         raise HTTPException(status_code=400, detail="User already registered")
     return crud.create_user(db=db, user=user)
+
+
+@app.get("/users", response_model=list[schemas.User])
+async def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    users = crud.get_users(db, skip=skip, limit=limit)
+    return users
+
+
+@app.get("/users/{user_id}", response_model=schemas.User)
+async def read_user(user_id: int, db: Session = Depends(get_db)):
+    db_user = crud.get_user(db, user_id=user_id)
+    if db_user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    return db_user
+
+
+@app.post("/games", response_model=schemas.Game)
+async def create_game_for_user(
+    game: schemas.GameBase, db: Session = Depends(get_db)
+):
+    return crud.create_game(db=db, game=game)
+
+
+@app.get("/games", response_model=list[schemas.Game])
+async def read_games(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    games = crud.get_games(db, skip=skip, limit=limit)
+    return games
