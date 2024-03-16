@@ -7,10 +7,15 @@ from fastapi.responses import RedirectResponse
 from fastapi import status
 import os
 from .db import crud, models
-from .db.database import SessionLocal, engine
+from .db.database import engine, get_db
 from . import schemas
 from .wordle_status import WordleStatus
 from sqlalchemy.orm import Session
+from .auth.utils import authenticate_user, create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES
+from .auth.exceptions import INCORRECT_EXCEPTION
+from fastapi.security import OAuth2PasswordRequestForm
+from typing import Annotated
+from datetime import timedelta
 
 app = FastAPI()
 templates = Jinja2Templates(directory=os.path.dirname(os.path.abspath(__file__)) + "/templates")
@@ -19,14 +24,6 @@ app.mount(static_path, StaticFiles(directory=static_path), name="static")
 wordle_status = WordleStatus()
 
 models.Base.metadata.create_all(bind=engine)
-
-# Dependency
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -94,3 +91,17 @@ async def create_game_for_user(
 async def read_games(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     games = crud.get_games(db, skip=skip, limit=limit)
     return games
+
+
+@app.post("/token")
+async def login_for_access_token(
+    form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Session = Depends(get_db)
+) -> schemas.Token:
+    user = authenticate_user(db, form_data.username, form_data.password)
+    if not user:
+        raise INCORRECT_EXCEPTION
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": user.username}, expires_delta=access_token_expires
+    )
+    return schemas.Token(access_token=access_token, token_type="bearer")

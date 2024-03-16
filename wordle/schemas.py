@@ -29,3 +29,10 @@ class User(UserBase):
         orm_mode = True
 
 
+class UserInDB(User):
+    hashed_password: str
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
