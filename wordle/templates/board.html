@@ -1,4 +1,4 @@
-{% set word_is_complete = status.last_word_complete() %}
+{% set word_is_complete = status.row_full %}
 <div class="Board-module_boardContainer">
     <div class="Board-module_board">
         {% for i in range(status.num_rows) %}

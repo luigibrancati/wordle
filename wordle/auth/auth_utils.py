@@ -12,7 +12,7 @@ from ..db.database import get_db
 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login", auto_error=False)
 
 
 def verify_password(plain_password, hashed_password):
@@ -43,18 +43,28 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     return encoded_jwt
 
 
-async def get_current_user(db: Annotated[Session, Depends(get_db)], token: Annotated[str, Depends(oauth2_scheme)]):
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        username: str = payload.get("sub")
-        if username is None:
+async def get_current_user(db: Annotated[Session, Depends(get_db)], token: Annotated[str | None, Depends(oauth2_scheme)]):
+    if token is not None:
+        try:
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            username: str = payload.get("sub")
+            if username is None:
+                raise CREDENTIALS_EXCEPTION
+        except JWTError:
             raise CREDENTIALS_EXCEPTION
-    except JWTError:
-        raise CREDENTIALS_EXCEPTION
-    user = crud.get_user_by_name(db, username)
-    if user is None:
-        raise CREDENTIALS_EXCEPTION
-    return user
+        user = crud.get_user_by_name(db, username)
+        return user
+    else:
+        try:
+            token = await 
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            username: str = payload.get("sub")
+            if username is None:
+                raise CREDENTIALS_EXCEPTION
+        except JWTError:
+            raise CREDENTIALS_EXCEPTION
+        user = crud.get_user_by_name(db, username)
+        return user
 
 
 async def check_auth(token: Annotated[str, Depends(oauth2_scheme)]):

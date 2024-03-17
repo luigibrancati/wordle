@@ -10,7 +10,7 @@ class LetterResult(Enum):
     CORRECT = 'correct'
 
 
-class WordleStatus:
+class GameStatus:
     num_columns = 5
     num_rows = 6
 
@@ -27,8 +27,12 @@ class WordleStatus:
         self.finished = False
 
     @property
+    def row_full(self):
+        return self.curr_column >= self.num_columns
+
+    @property
     def last_word(self) -> str:
-        if None in self.grid_letters[self.curr_row]:
+        if not self.row_full:
             return ""
         if not self.finished:
             return "".join(self.grid_letters[self.curr_row])
@@ -36,7 +40,7 @@ class WordleStatus:
             return "".join(self.grid_letters[self.num_rows - 1])
 
     def add_letter(self, letter:str) -> None:
-        if self.curr_column < 5 and not self.finished:
+        if not self.row_full and not self.finished:
             self.grid_letters[self.curr_row][self.curr_column] = letter
             self.grid_letters_status[self.curr_row][self.curr_column] = LetterResult.TBD
             self.curr_column += 1
@@ -75,11 +79,8 @@ class WordleStatus:
         word = self.last_word
         return words.is_in_wordlist(word)
 
-    def last_word_complete(self) -> bool:
-        return self.curr_column == self.num_columns
-
     def check_last_word(self) -> bool:
-        if self.last_word_complete() and not self.finished:
+        if self.row_full and not self.finished:
             word = self.last_word
             if words.is_in_wordlist(word):
                 self._update_word_status(word)

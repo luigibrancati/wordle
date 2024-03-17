@@ -39,3 +39,7 @@ class UserInDB(User):
 class Token(BaseModel):
     access_token: str
     token_type: str
+
+    def header(self):
+        if self.token_type == 'bearer':
+            return {"Authorization": f"Bearer {self.access_token}"}
