@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class GameBase(BaseModel):
     won: bool
     steps: int
@@ -17,14 +18,17 @@ class Game(GameBase):
 
 
 class UserBase(BaseModel):
-    name: str
+    username: str
+
+
+class UserLogin(UserBase):
+    password: str
 
 
 class User(UserBase):
     id: int
-    name: str
     games: list[Game] = []
-    
+
     class Config:
         orm_mode = True
 
