@@ -17,6 +17,7 @@ class Game(Base):
     id = Column(Integer, primary_key=True)
     won = Column(Boolean, index=True)
     steps = Column(String, index=True)
+    solution = Column(String)
     user_id = Column(Integer, ForeignKey("users.id"))
     player = relationship("User", back_populates="games")
 

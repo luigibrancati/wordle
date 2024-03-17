@@ -26,6 +26,15 @@ class WordleStatus:
         self.won = False
         self.finished = False
 
+    @property
+    def last_word(self) -> str:
+        if None in self.grid_letters[self.curr_row]:
+            return ""
+        if not self.finished:
+            return "".join(self.grid_letters[self.curr_row])
+        else:
+            return "".join(self.grid_letters[self.num_rows - 1])
+
     def add_letter(self, letter:str) -> None:
         if self.curr_column < 5 and not self.finished:
             self.grid_letters[self.curr_row][self.curr_column] = letter
@@ -62,13 +71,8 @@ class WordleStatus:
                 self.grid_letters_status[self.curr_row][i] = LetterResult.ABSENT
                 self.abset_letters.add(letter)
 
-    def last_word(self) -> str:
-        if None in self.grid_letters[self.curr_row]:
-            return ""
-        return "".join(self.grid_letters[self.curr_row])
-
-    def last_word_in_wordlist(self) -> bool:
-        word = self.last_word()
+    def last_word_is_in_wordlist(self) -> bool:
+        word = self.last_word
         return words.is_in_wordlist(word)
 
     def last_word_complete(self) -> bool:
@@ -76,19 +80,21 @@ class WordleStatus:
 
     def check_last_word(self) -> bool:
         if self.last_word_complete() and not self.finished:
-            word = self.last_word()
+            word = self.last_word
             if words.is_in_wordlist(word):
                 self._update_word_status(word)
                 if word == self.solution:
                     print("Won")
                     self.finished = True
                     self.won = True
-                    self.last_word_wrong = False
+                    return
+                if self.curr_row == self.num_rows - 1:
+                    print("Lost")
+                    self.finished = True
+                    self.won = False
                     return
                 self.curr_row += 1
                 self.curr_column = 0
-                if self.curr_row == self.num_rows:
-                    self.finished = True
 
     def reset(self) -> None:
         self.solution = words.random_world()

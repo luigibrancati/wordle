@@ -4,13 +4,12 @@ from pydantic import BaseModel
 class GameBase(BaseModel):
     won: bool
     steps: int
+    solution: str
     user_id: int
 
 
 class Game(GameBase):
     id: int
-    won: bool
-    steps: int
     user_id: int
 
     class Config:
