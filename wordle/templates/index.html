@@ -1,17 +1,16 @@
 {% extends 'base.html' %}
 {% block main %}
     {% if status.won %}
-    <div class="Win">
-        <h2 class="AppHeader-module_title">You won! Solution: {{ status.solution }}</h2>
-    </div>
+        <div class="Win">
+            <h2 class="AppHeader-module_title">You won! Solution: {{ status.solution }}</h2>
+        </div>
     {% endif %}
     {% if status.finished and not status.won %}
-    <div class="Lose">
-        <h2 class="AppHeader-module_title">You lost! Solution: {{ status.solution }}</h2>
-    </div>
+        <div class="Lose">
+            <h2 class="AppHeader-module_title">You lost! Solution: {{ status.solution }}</h2>
+        </div>
     {% endif %}
     {% include 'board.html' %}
     {% include 'login.html' %}
     {% include 'keyboard.html' %}
-</main>
 {% endblock %}

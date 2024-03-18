@@ -11,10 +11,9 @@ from .db.database import engine, get_db
 from . import schemas
 from .game_status import GameStatus
 from sqlalchemy.orm import Session
-from .auth import auth_exceptions, auth_utils, auth_conf
+from .auth import auth_exceptions, auth_utils
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
-from datetime import timedelta
 
 app = FastAPI()
 templates = Jinja2Templates(directory=os.path.dirname(os.path.abspath(__file__)) + "/templates")
@@ -22,10 +21,12 @@ static_path = os.path.dirname(os.path.abspath(__file__)) + "/static"
 app.mount(static_path, StaticFiles(directory=static_path), name="static")
 game_status = GameStatus()
 
+
 models.Base.metadata.create_all(bind=engine)
 
+
 @app.get("/", response_class=HTMLResponse)
-async def show_board(request: Request, user: Annotated[schemas.User | None, Depends(auth_utils.get_current_user)]):
+async def show_board(request: Request, user: Annotated[schemas.User | None, Depends(auth_utils.manager.optional)]):
     return templates.TemplateResponse(
         request=request, name="index.html", context={"status": game_status, "word_in_list": True, "user": user}, status_code=200
     )
@@ -44,13 +45,14 @@ async def remove_letter():
 
 
 @app.post("/check_word", response_class=RedirectResponse)
-async def check_word(request: Request, user: Annotated[schemas.User | None, Depends(auth_utils.get_current_user)], db: Annotated[Session, Depends(get_db)]):
+async def check_word(request: Request, user: Annotated[schemas.User | None, Depends(auth_utils.manager.optional)], db: Annotated[Session, Depends(get_db)]):
+    word_in_list = game_status.last_word_is_in_wordlist()
     game_status.check_last_word()
     if game_status.finished and user is not None:
         game = schemas.GameBase(won=game_status.won, steps=game_status.curr_row + 1, solution=game_status.solution, user_id=user.id)
         crud.create_game(db, game)
     return templates.TemplateResponse(
-            request=request, name="index.html", context={"status": game_status, "word_in_list": game_status.last_word_is_in_wordlist(), "user": user}, status_code=200
+            request=request, name="index.html", context={"status": game_status, "word_in_list": word_in_list, "user": user}, status_code=200
         )
 
 
@@ -113,23 +115,23 @@ async def read_game(game_id: int, db: Annotated[Session, Depends(get_db)]):
 
 
 @app.post("/login")
-async def login_access_token(
+async def login(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Annotated[Session, Depends(get_db)]
-) -> schemas.Token:
-    user = auth_utils.authenticate_user(db, form_data.username, form_data.password)
+) -> str:
+    user = auth_utils.authenticate_user(form_data.username, form_data.password, db)
     if not user:
         raise auth_exceptions.INCORRECT_EXCEPTION
-    access_token_expires = timedelta(minutes=auth_conf.ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = auth_utils.create_access_token(
-        data={"sub": user.username}, expires_delta=access_token_expires
+    access_token = auth_utils.manager.create_access_token(
+        data={"sub": user.username}
     )
-    return schemas.Token(access_token=access_token, token_type="bearer")
+    return access_token
 
 
 @app.post("/login_redirect", response_class=RedirectResponse)
 async def login_redirect(
-    request: Request, form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Annotated[Session, Depends(get_db)]
+    form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Annotated[Session, Depends(get_db)]
 ):
-    token = await login_access_token(form_data=form_data, db=db)
-    headers = {**request.headers, **token.header()}
-    return RedirectResponse("/", status_code=status.HTTP_302_FOUND, headers=headers)
+    token = await login(form_data=form_data, db=db)
+    response = RedirectResponse("/", status_code=status.HTTP_302_FOUND)
+    auth_utils.manager.set_cookie(response, token)
+    return response

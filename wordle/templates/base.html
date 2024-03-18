@@ -8,7 +8,14 @@
 <body>
     <div class="App">
         <header class="AppHeader-module_appHeader wordle-app-header">
-            {% include 'header.html' %}
+            <h1 class="AppHeader-module_title">Wordle</h1>
+            <div class="AppHeader-module_login">
+                {% if user is none %}
+                    <a class="form_button" href="#login_popup">Login</a>
+                {% else %}
+                    <span>Logged in as <b>{{ user.username }}</b></span>
+                {% endif %}
+            </div>
         </header>
         <main class="App-module_game">
             {% block main %}{% endblock %}

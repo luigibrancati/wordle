@@ -32,12 +32,13 @@ class GameStatus:
 
     @property
     def last_word(self) -> str:
-        if not self.row_full:
-            return ""
-        if not self.finished:
+        if self.row_full:
             return "".join(self.grid_letters[self.curr_row])
         else:
-            return "".join(self.grid_letters[self.num_rows - 1])
+            if self.curr_row == 0:
+                return ""
+            else:
+                return "".join(self.grid_letters[self.curr_row - 1])
 
     def add_letter(self, letter:str) -> None:
         if not self.row_full and not self.finished:
