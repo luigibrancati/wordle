@@ -1,4 +1,4 @@
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, Form
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.requests import Request
@@ -14,6 +14,7 @@ from sqlalchemy.orm import Session
 from .auth import auth_exceptions, auth_utils
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
+
 
 app = FastAPI()
 templates = Jinja2Templates(directory=os.path.dirname(os.path.abspath(__file__)) + "/templates")
@@ -69,13 +70,12 @@ async def solution():
 
 @app.get("/users", response_model=list[schemas.User])
 async def read_users(db: Annotated[Session, Depends(get_db)], skip: int = 0, limit: int = 100):
-    users = crud.get_users(db, skip=skip, limit=limit)
-    return users
+    return crud.get_users(db, skip=skip, limit=limit)
 
 
 @app.post("/users", response_model=schemas.User)
 async def create_user(user: schemas.UserLogin, db: Annotated[Session, Depends(get_db)]):
-    db_user = crud.get_user_by_name(db, username=user.username)
+    db_user = crud.get_user_by_name(username=user.username, db=db)
     if db_user:
         raise HTTPException(status_code=400, detail="User already registered")
     return crud.create_user(db=db, username=user.username, password=user.password)
@@ -91,8 +91,7 @@ async def read_user(user_id: int, db: Annotated[Session, Depends(get_db)]):
 
 @app.get("/games", response_model=list[schemas.Game])
 async def read_games(db: Annotated[Session, Depends(get_db)], skip: int = 0, limit: int = 100):
-    games = crud.get_games(db, skip=skip, limit=limit)
-    return games
+    return crud.get_games(db, skip=skip, limit=limit)
 
 
 @app.post("/games", response_model=schemas.Game)
@@ -135,3 +134,9 @@ async def login_redirect(
     response = RedirectResponse("/", status_code=status.HTTP_302_FOUND)
     auth_utils.manager.set_cookie(response, token)
     return response
+
+
+@app.post("/register", response_class=RedirectResponse)
+async def register(username: Annotated[str, Form()], password: Annotated[str, Form()], db: Annotated[Session, Depends(get_db)]):
+    await create_user(user=schemas.UserLogin(username=username, password=password), db=db)
+    return await login_redirect(form_data=OAuth2PasswordRequestForm(username=username, password=password), db=db)

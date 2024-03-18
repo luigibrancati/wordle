@@ -12,6 +12,7 @@
             <div class="AppHeader-module_login">
                 {% if user is none %}
                     <a class="form_button" href="#login_popup">Login</a>
+                    <a class="form_button" href="#register_popup">Register</a>
                 {% else %}
                     <span>Logged in as <b>{{ user.username }}</b></span>
                 {% endif %}
