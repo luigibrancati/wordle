@@ -50,3 +50,11 @@
 	max-height: 30%;
 	overflow: auto;
 }
+
+#login_register_form {
+	text-align: center;
+	align-items: center;
+	display: block;
+	height: 150px;
+	padding: 10px;
+}
