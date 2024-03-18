@@ -8,11 +8,12 @@
 <body>
     <div class="App">
         <header class="AppHeader-module_appHeader wordle-app-header">
-            <h1 class="AppHeader-module_title">Wordle</h1>
-            <div class="AppHeader-module_login">
+            <div id="header_start"> </div>
+            <h1 id="header_middle" class="AppHeader-module_title">Wordle</h1>
+            <div id="header_end" class="AppHeader-module_login">
                 {% if user is none %}
-                    <a class="form_button" href="#login_popup">Login</a>
-                    <a class="form_button" href="#register_popup">Register</a>
+                    <a id="login_button" class="Keyboard-module_key" data-state="tbd" href="#login_popup">Login</a>
+                    <a id="register_button" class="Keyboard-module_key" data-state="tbd" href="#register_popup">Register</a>
                 {% else %}
                     <span>Logged in as <b>{{ user.username }}</b></span>
                 {% endif %}
