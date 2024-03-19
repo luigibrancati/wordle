@@ -109,3 +109,6 @@ class GameStatus:
         self.correct_letters = set()
         self.won = False
         self.finished = False
+
+
+game_status = GameStatus()

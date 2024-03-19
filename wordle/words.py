@@ -1,5 +1,5 @@
-import os
 import random
+from .conf import STATIC_DIR
 
 
 class SingletonMeta(type):
@@ -14,7 +14,7 @@ class SingletonMeta(type):
 
 class Words(metaclass=SingletonMeta):
     def __init__(self):
-        filepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static/words.txt")
+        filepath = STATIC_DIR.joinpath("words.txt")
         self.word_list = [w[:-1] for w in open(filepath, "r").readlines()]
 
     def is_in_wordlist(self, word: str) -> bool:
