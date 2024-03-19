@@ -24,10 +24,10 @@ div[animation_key="wrong_word"] {
 	align-items: center;
 	justify-content: flex-start;
 	flex-wrap: nowrap;
-	padding: 0px;
-	height: 50px;
+	height: 40px;
 	color: black;
 	border-bottom: 1px solid #d3d6da;
+	padding: 0.2em;
 }
 
 .AppHeader-module_appHeader .AppHeader-module_title {
@@ -182,4 +182,69 @@ form, .Keyboard-module_key {
 
 button, [type="button"], [type="reset"], [type="submit"] {
 	-webkit-appearance: button;
+}
+
+.AppHeader-module_login {
+	display: flex;
+	flex-direction: row;
+	height: 100%;
+	width: 100%;
+	gap: 10px;
+}
+
+#login_button, #register_button {
+	height: 80%;
+	width: fit-content;
+}
+
+#header_selector, #header_login {
+	width: 25%;
+	padding: 0 0.2em;
+	height: 100%;
+	display: flex;
+	align-items: center;
+}
+
+#header_title {
+	width: 75%;
+	padding: 0 0.2em;
+	height: 100%;
+}
+
+.wordle-app-header {
+	justify-content: center;
+}
+
+@media (max-width: 800px) {
+	.AppHeader-module_login {
+	  flex-direction: column;
+	}
+  }
+
+ul[id="leaderboard"] {
+	padding: 0.2em;
+	list-style-position: outside;
+}
+
+ul[id="leaderboard"] li {
+	list-style: decimal;
+}
+
+ul[id="leaderboard"] li[id="1"], li[id="2"], li[id="3"] {
+	background-repeat: no-repeat;
+	background-position: left center;
+	background-size: 20px;
+	padding: 0 30px;
+}
+
+ul[id="leaderboard"] li[id="1"] {
+	background-image: url('golden_star.svg');
+}
+
+ul[id="leaderboard"] li[id="2"] {
+	background-image: url('silver_star.svg');
+}
+
+ul[id="leaderboard"] li[id="3"] {
+	background-image: url('bronze_star.svg');
 }

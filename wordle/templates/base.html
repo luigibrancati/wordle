@@ -1,0 +1,49 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wordle</title>
+    <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', path='/overlay.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', path='/navbar.css') }}" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+</head>
+
+<body>
+    <div class="App">
+        <header class="AppHeader-module_appHeader wordle-app-header">
+            <div id="header_selector">
+                <nav class="navbar">
+                    <ul>
+                        <li><a class="nav-link" href="{{ url_for('show_board') }}">Board</a></li>
+                        <li><a class="nav-link" href="{{ url_for('show_leaderboard') }}">Leaderboard</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <h1 id="header_title" class="AppHeader-module_title">Wordle</h1>
+            <div id="header_login" class="AppHeader-module_login">
+                {% if user is none %}
+                <a id="login_button" class="Keyboard-module_key" data-state="tbd" href="#login_popup">Login</a>
+                <a id="register_button" class="Keyboard-module_key" data-state="tbd" href="#register_popup">Register</a>
+                {% else %}
+                <span>Logged in as <b>{{ user.username }}</b></span>
+                {% endif %}
+            </div>
+        </header>
+        <main class="App-module_game">
+            {% block main %}{% endblock %}
+        </main>
+    </div>
+    <script type="text/javascript">
+        $(function(){
+            $('.nav-link').each(function(){
+                if ($(this).prop('href') == window.location.href) {
+                    $(this).addClass('active');
+                    $(this).parents('li').addClass('active');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

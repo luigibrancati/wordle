@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block main %}
+    <div>
+        <h1>Leaderboard</h1>
+        <ul id="leaderboard">
+            {% for player in players %}
+                {% if player is not none %}
+                    <li id="{{ loop.index }}">
+                        <span>{{ player.username }}: <b>{{ player.points }} points</b></span>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
