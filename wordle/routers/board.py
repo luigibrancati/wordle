@@ -3,7 +3,6 @@ from fastapi.responses import HTMLResponse
 from fastapi.requests import Request
 from fastapi.responses import RedirectResponse
 from fastapi import status
-from ..db import crud
 from ..db.database import get_db
 from .. import schemas
 from sqlalchemy.orm import Session
@@ -11,6 +10,7 @@ from ..auth import auth_utils
 from typing import Annotated
 from ..game_status import game_status
 from .common import templates
+from .game import create_game_for_user
 
 
 router = APIRouter(prefix='/board')
@@ -40,8 +40,8 @@ async def check_word(request: Request, user: Annotated[schemas.User | None, Depe
     word_in_list = game_status.last_word_is_in_wordlist()
     game_status.check_last_word()
     if game_status.finished and user is not None:
-        game = schemas.GameBase(won=game_status.won, steps=game_status.curr_row + 1, solution=game_status.solution, user_id=user.id)
-        crud.create_game(db, game)
+        game = schemas.GameBase(won=game_status.won, steps=game_status.curr_row + 1, points = game_status.curr_row + 1, solution=game_status.solution, user_id=user.id)
+        await create_game_for_user(game=game, db=db)
     return templates.TemplateResponse(
             request=request, name="index.html", context={"status": game_status, "word_in_list": word_in_list, "user": user}, status_code=200
         )

@@ -23,7 +23,7 @@ async def create_user(user: schemas.UserLogin, db: Annotated[Session, Depends(ge
     db_user = crud.get_user_by_name(username=user.username, db=db)
     if db_user:
         raise HTTPException(status_code=400, detail="User already registered")
-    return crud.create_user(db=db, username=user.username, password=user.password)
+    return crud.create_user(db=db, user=user)
 
 
 @router.get("/{user_id}", response_model=schemas.User)

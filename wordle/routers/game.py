@@ -19,9 +19,11 @@ async def create_game_for_user(
     game: schemas.GameBase, db: Annotated[Session, Depends(get_db)]
 ):
     user_id = game.user_id
-    db_user = crud.get_user(db, user_id=user_id)
+    db_user = crud.get_user(user_id=user_id, db=db)
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
+    new_points = db_user.points + game.points
+    crud.update_user_points(user_id=user_id, new_points=new_points, db=db)
     return crud.create_game(db=db, game=game)
 
 

@@ -215,3 +215,31 @@ button, [type="button"], [type="reset"], [type="submit"] {
 	  flex-direction: column;
 	}
   }
+
+ul[id="leaderboard"] {
+	padding: 0.2em;
+	list-style-position: outside;
+}
+
+ul[id="leaderboard"] li {
+	list-style: decimal;
+}
+
+ul[id="leaderboard"] li[id="1"], li[id="2"], li[id="3"] {
+	background-repeat: no-repeat;
+	background-position: left center;
+	background-size: 20px;
+	padding: 0 30px;
+}
+
+ul[id="leaderboard"] li[id="1"] {
+	background-image: url('golden_star.svg');
+}
+
+ul[id="leaderboard"] li[id="2"] {
+	background-image: url('silver_star.svg');
+}
+
+ul[id="leaderboard"] li[id="3"] {
+	background-image: url('bronze_star.svg');
+}

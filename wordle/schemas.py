@@ -4,13 +4,13 @@ from pydantic import BaseModel
 class GameBase(BaseModel):
     won: bool
     steps: int
+    points: float
     solution: str
     user_id: int
 
 
 class Game(GameBase):
     id: int
-    user_id: int
 
     class Config:
         orm_mode = True
@@ -26,6 +26,7 @@ class UserLogin(UserBase):
 
 class User(UserBase):
     id: int
+    points: float
     games: list[Game] = []
 
     class Config:

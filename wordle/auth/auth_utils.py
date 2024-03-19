@@ -1,6 +1,6 @@
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
-from ..db import crud
+from ..db import crud, database
 from .auth_conf import SECRET_KEY, ACCESS_TOKEN_EXPIRE_MINUTES
 from fastapi_login import LoginManager
 from datetime import timedelta
@@ -24,3 +24,8 @@ def authenticate_user(username: str, password: str, db: Session):
     if not verify_password(password, user.hashed_password):
         return False
     return user
+
+
+@manager.user_loader()
+def user_loader(username: str, db: Session = next(database.get_db())):
+    return crud.get_user_by_name(username=username, db=db)
