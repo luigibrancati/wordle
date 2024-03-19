@@ -197,13 +197,16 @@ button, [type="button"], [type="reset"], [type="submit"] {
 	width: fit-content;
 }
 
-#header_start, #header_end {
-	width: 20%;
-	padding: 10px;
+#header_selector, #header_login {
+	width: 25%;
+	padding: 0 0.2em;
+	height: 100%;
 }
 
-#header_middle {
-	width: 80%;
+#header_title {
+	width: 75%;
+	padding: 0 0.2em;
+	height: 100%;
 }
 
 .wordle-app-header {
