@@ -1,0 +1,4 @@
+include ./wordle/templates
+include ./wordle/static
+include ./poetry.lock
+include ./pyproject.toml
