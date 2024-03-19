@@ -2,12 +2,13 @@ FROM python:3.11-bullseye
 
 WORKDIR /
 
-COPY poetry.lock pyproject.toml ./
+COPY poetry.lock pyproject.toml start.sh ./
 COPY ./wordle ./wordle/
 
+RUN chmod +x /start.sh
 RUN pip install poetry
 RUN poetry install
 
-EXPOSE 8000
+EXPOSE $PORT
 
-CMD ["poetry", "run", "uvicorn", "wordle.main:app", "--proxy-headers", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["./start.sh"]
