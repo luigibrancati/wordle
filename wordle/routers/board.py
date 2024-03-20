@@ -24,8 +24,7 @@ async def show_board(request: Request, user: Annotated[schemas.User | None, Depe
     )
 
 
-@router.post("/add_letter/{letter}", response_class=RedirectResponse)
-async def add_letter(request: Request, letter: str):
+def add_letter(request: Request, letter: str):
     game_status.add_letter(letter)
     return RedirectResponse(request.url_for("show_board"), status_code=status.HTTP_302_FOUND)
 
