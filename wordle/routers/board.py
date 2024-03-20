@@ -32,7 +32,7 @@ async def add_letter(request: Request, letter: str):
 
 @router.post("/check_word")
 async def check_word(request: Request, user: Annotated[schemas.User | None, Depends(auth_utils.manager.optional)], db: Annotated[Session, Depends(get_db)], last_word: dict = Body()):
-    last_word = "".join(last_word['last_word'])
+    last_word = last_word['last_word']
     if words.is_in_wordlist(last_word):
         for letter in last_word:
             game_status.add_letter(letter)
