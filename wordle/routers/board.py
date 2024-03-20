@@ -1,4 +1,4 @@
-from fastapi import Depends, APIRouter
+from fastapi import Depends, APIRouter, Body
 from fastapi.responses import HTMLResponse
 from fastapi.requests import Request
 from fastapi.responses import RedirectResponse
@@ -9,6 +9,7 @@ from sqlalchemy.orm import Session
 from ..auth import auth_utils
 from typing import Annotated
 from ..game_status import game_status
+from ..words import words
 from .common import templates
 from .game import create_game_for_user
 
@@ -29,22 +30,18 @@ async def add_letter(request: Request, letter: str):
     return RedirectResponse(request.url_for("show_board"), status_code=status.HTTP_302_FOUND)
 
 
-@router.post("/remove_letter", response_class=RedirectResponse)
-async def remove_letter(request: Request):
-    game_status.remove_last_letter()
-    return RedirectResponse(request.url_for("show_board"), status_code=status.HTTP_302_FOUND)
-
-
-@router.post("/check_word", response_class=RedirectResponse)
-async def check_word(request: Request, user: Annotated[schemas.User | None, Depends(auth_utils.manager.optional)], db: Annotated[Session, Depends(get_db)]):
-    word_in_list = game_status.last_word_is_in_wordlist()
-    game_status.check_last_word()
-    if game_status.finished and user is not None:
-        game = schemas.GameBase(won=game_status.won, steps=game_status.curr_row + 1, points = game_status.curr_row + 1, solution=game_status.solution, user_id=user.id)
-        await create_game_for_user(game=game, db=db)
-    return templates.TemplateResponse(
-            request=request, name="index.html", context={"status": game_status, "word_in_list": word_in_list, "user": user}, status_code=200
-        )
+@router.post("/check_word")
+async def check_word(request: Request, user: Annotated[schemas.User | None, Depends(auth_utils.manager.optional)], db: Annotated[Session, Depends(get_db)], last_word: dict = Body()):
+    last_word = "".join(last_word['last_word'])
+    if words.is_in_wordlist(last_word):
+        for letter in last_word:
+            game_status.add_letter(letter)
+        game_status.check_word(last_word)
+        if game_status.finished and user is not None:
+            points = game_status.num_rows - game_status.curr_row
+            game = schemas.GameBase(won=game_status.won, steps=game_status.curr_row + 1, points = points, solution=game_status.solution, user_id=user.id)
+            await create_game_for_user(game=game, db=db)
+        return RedirectResponse(request.url_for("show_board"), status_code=status.HTTP_302_FOUND)
 
 
 @router.post("/reset", response_class=RedirectResponse)

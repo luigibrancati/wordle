@@ -1,6 +1,5 @@
 from pydantic import BaseModel
 
-
 class GameBase(BaseModel):
     won: bool
     steps: int
