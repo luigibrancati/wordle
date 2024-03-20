@@ -38,7 +38,8 @@ async def check_word(request: Request, user: Annotated[schemas.User | None, Depe
             game_status.add_letter(letter)
         game_status.check_word(last_word)
         if game_status.finished and user is not None:
-            game = schemas.GameBase(won=game_status.won, steps=game_status.curr_row + 1, points = game_status.curr_row + 1, solution=game_status.solution, user_id=user.id)
+            points = game_status.num_rows - game_status.curr_row
+            game = schemas.GameBase(won=game_status.won, steps=game_status.curr_row + 1, points = points, solution=game_status.solution, user_id=user.id)
             await create_game_for_user(game=game, db=db)
         return RedirectResponse(request.url_for("show_board"), status_code=status.HTTP_302_FOUND)
 
