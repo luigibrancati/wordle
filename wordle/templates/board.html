@@ -3,16 +3,14 @@
     <div class="Board-module_board">
         {% for i in range(status.num_rows) %}
         {% set curr_word = (i == status.curr_row) %}
-        <div class="Row-module_row" aria-label="Row {{ i + 1 }}">
+        <div class="Row-module_row" aria-label="Row {{ i + 1 }}" grid-index="{{ i + 1 }}">
             {% for j in range(status.num_columns) %}
             {% if curr_word and word_is_complete and not(word_in_list) %}
-            <div class="Tile-module_tile" aria-label="Tile {{ j }}" data-testid="tile" data-state="{{ status.grid_letters_status[i][j].value }}" animation_key = "wrong_word" style="animation-delay: {{ 0.1 * j }}s">
+            <div class="Tile-module_tile" aria-label="Tile {{ j + 1 }}"  grid-index="{{ j + 1 }}" data-testid="tile" data-state="{{ status.grid_letters_status[i][j].value }}" animation_key = "wrong_word" style="animation-delay: {{ 0.1 * j }}s">
             {% else %}
-            <div class="Tile-module_tile" aria-label="Tile {{ j }}" data-testid="tile" data-state="{{ status.grid_letters_status[i][j].value }}">
+            <div class="Tile-module_tile" aria-label="Tile {{ j + 1 }}"  grid-index="{{ j + 1 }}" data-testid="tile" data-state="{{ status.grid_letters_status[i][j].value }}">
             {% endif %}
-                {% if status.grid_letters[i][j] is none %}
-                    ''
-                {% else %}
+                {% if status.grid_letters[i][j] is not none %}
                     {{ status.grid_letters[i][j] }}
                 {% endif %}
             </div>

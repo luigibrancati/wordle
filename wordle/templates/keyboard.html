@@ -10,19 +10,13 @@
     {% for row in keys %}
     <div class="Keyboard-module_row">
         {% if row[0] == 'z' %}
-            <form class="form_button" method="POST" action="{{ url_for('check_word') }}">
-                <input type="submit" value="enter" class="Keyboard-module_key" data-state="tbd">
-            </form>
+            <button class="Keyboard-module_key" data-state="tbd" onclick="checkWord()">enter</button>
         {% endif %}
         {% for key in row %}
-            <form class="form_button" method="POST" action="{{ url_for('add_letter', letter=key) }}">
-                <input type="submit" value="{{ key }}" class="Keyboard-module_key" data-state="{{ status.letter_state(key).value }}">
-            </form>
+            <button class="Keyboard-module_key" data-state="{{ status.letter_state(key).value }}" onclick="addLetter(this)">{{ key }}</button>
         {% endfor %}
         {% if row[0] == 'z' %}
-            <form class="form_button" method="POST" action="{{ url_for('remove_letter') }}">
-                <input type="submit" value="del" class="Keyboard-module_key" data-state="tbd">
-            </form>
+            <button class="Keyboard-module_key" data-state="tbd" onclick="removeLetter(this)">del</button>
         {% endif %}
     </div>
     {% endfor %}

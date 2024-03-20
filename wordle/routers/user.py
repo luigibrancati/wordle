@@ -58,6 +58,6 @@ async def login_redirect(
 
 
 @router.post("/register", response_class=RedirectResponse)
-async def register(username: Annotated[str, Form()], password: Annotated[str, Form()], db: Annotated[Session, Depends(get_db)]):
+async def register(request: Request, username: Annotated[str, Form()], password: Annotated[str, Form()], db: Annotated[Session, Depends(get_db)]):
     await create_user(user=schemas.UserLogin(username=username, password=password), db=db)
-    return await login_redirect(form_data=OAuth2PasswordRequestForm(username=username, password=password), db=db)
+    return await login_redirect(request=request, form_data=OAuth2PasswordRequestForm(username=username, password=password), db=db)

@@ -30,27 +30,11 @@ class GameStatus:
     def row_full(self):
         return self.curr_column >= self.num_columns
 
-    @property
-    def last_word(self) -> str:
-        if self.row_full:
-            return "".join(self.grid_letters[self.curr_row])
-        else:
-            if self.curr_row == 0:
-                return ""
-            else:
-                return "".join(self.grid_letters[self.curr_row - 1])
-
     def add_letter(self, letter:str) -> None:
         if not self.row_full and not self.finished:
             self.grid_letters[self.curr_row][self.curr_column] = letter
             self.grid_letters_status[self.curr_row][self.curr_column] = LetterResult.TBD
             self.curr_column += 1
-
-    def remove_last_letter(self) -> None:
-        if self.grid_letters[self.curr_row][0] is not None and not self.finished:
-            self.curr_column -= 1
-            self.grid_letters[self.curr_row][self.curr_column] = None
-            self.grid_letters_status[self.curr_row][self.curr_column] = LetterResult.EMPTY
 
     def letter_state(self, letter:str) -> LetterResult:
         if letter in self.abset_letters:
@@ -76,13 +60,8 @@ class GameStatus:
                 self.grid_letters_status[self.curr_row][i] = LetterResult.ABSENT
                 self.abset_letters.add(letter)
 
-    def last_word_is_in_wordlist(self) -> bool:
-        word = self.last_word
-        return words.is_in_wordlist(word)
-
-    def check_last_word(self) -> bool:
+    def check_word(self, word: str) -> bool:
         if self.row_full and not self.finished:
-            word = self.last_word
             if words.is_in_wordlist(word):
                 self._update_word_status(word)
                 if word == self.solution:
