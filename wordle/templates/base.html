@@ -1,6 +1,7 @@
 <html>
 
 <head>
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wordle</title>
     <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
@@ -164,14 +165,7 @@
 <body>
     <div class="App">
         <header class="AppHeader-module_appHeader wordle-app-header">
-            <div id="header_selector">
-                <nav class="navbar">
-                    <ul>
-                        <li><a class="nav-link" href="{{ url_for('show_board') }}">Board</a></li>
-                        <li><a class="nav-link" href="{{ url_for('show_leaderboard') }}">Leaderboard</a></li>
-                    </ul>
-                </nav>
-            </div>
+            {% include 'navbar.html' %}
             <h1 id="header_title" class="AppHeader-module_title">Wordle</h1>
             <div id="header_login" class="AppHeader-module_login">
                 {% if user is none %}

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block main %}
+    <div>
+        <h1 style="text-align: center;">Dashboard</h1>
+        <div style="display:flex;float:left;flex-direction:row;margin:1rem;align-items:center;text-align:center;">
+            <h3>Winning percentage: {{ "%0.2f" % (winning_perc * 100) | float }}%</h3>
+            {{ winning_pie_chart | safe }}
+        </div>
+    </div>
+{% endblock %}
