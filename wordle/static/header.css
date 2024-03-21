@@ -40,12 +40,14 @@
 	height: 100%;
 	display: flex;
 	align-items: center;
+	font-size: large;
 }
 
 #header_title {
 	width: 75%;
 	padding: 0 0.2em;
 	height: 100%;
+	font-size: xx-large;
 }
 
 .wordle-app-header {
