@@ -56,4 +56,12 @@
 	.AppHeader-module_login {
 	  flex-direction: column;
 	}
+
+	#header_selector, #header_login {
+		font-size: x-small;
+	}
+
+	#header_title {
+		font-size: x-large;
+	}
   }
