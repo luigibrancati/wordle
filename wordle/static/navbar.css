@@ -4,6 +4,7 @@
 
 .navbar ul {
 	display: flex;
+	flex-direction: row;
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
@@ -35,4 +36,10 @@
 .nav-link.active {
 	color: white;
 	background-color: #101010;
+}
+
+@media (max-width: 800px) {
+	.navbar ul {
+		flex-direction: column;
+	}
 }
