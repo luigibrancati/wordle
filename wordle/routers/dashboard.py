@@ -16,7 +16,7 @@ router = APIRouter(prefix='/dashboard')
 
 def game_stats(user: Annotated[schemas.User, Depends(auth_utils.manager)], db: Annotated[Session, Depends(get_db)]):
     df = pd.DataFrame({"id": [g.id for g in user.games], "points": [g.points for g in user.games], "result": [g.won for g in user.games]})
-    winning_perc = df[df['result']].size / df.size
+    winning_perc = df[df['result']].size / df.size if df.size > 0 else 0.0
     df['result'] = df['result'].replace(True, 'won').replace(False, 'lost')
     chart = px.pie(
         data_frame=df,
