@@ -1,0 +1,59 @@
+.AppHeader-module_appHeader {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+	flex-wrap: nowrap;
+	height: 40px;
+	color: black;
+	border-bottom: 1px solid #d3d6da;
+	padding: 0.2em;
+}
+
+.AppHeader-module_appHeader .AppHeader-module_title {
+	text-align: center;
+	width: 100%;
+	font-family: "nyt-karnakcondensed";
+}
+
+.AppHeader-module_login {
+	display: flex;
+	flex-direction: row;
+	height: 100%;
+	width: 100%;
+	gap: 10px;
+}
+
+#login_button, #register_button, #logout_form {
+	height: 80%;
+	width: fit-content;
+}
+
+#logout_button {
+	height: 100%;
+	width: fit-content;
+}
+
+#header_selector, #header_login {
+	width: 25%;
+	padding: 0 0.2em;
+	height: 100%;
+	display: flex;
+	align-items: center;
+}
+
+#header_title {
+	width: 75%;
+	padding: 0 0.2em;
+	height: 100%;
+}
+
+.wordle-app-header {
+	justify-content: center;
+}
+
+@media (max-width: 800px) {
+	.AppHeader-module_login {
+	  flex-direction: column;
+	}
+  }
