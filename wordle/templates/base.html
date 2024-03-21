@@ -179,6 +179,9 @@
                 <a id="register_button" class="Keyboard-module_key" data-state="tbd" href="#register_popup">Register</a>
                 {% else %}
                 <span>Logged in as <b>{{ user.username }}</b></span>
+                <form id="logout_form" method="POST" action="{{ url_for('logout') }}">
+                    <input id="logout_button" type="submit" value="logout" class="Keyboard-module_key" data-state="tbd">
+                </form>
                 {% endif %}
             </div>
         </header>

@@ -192,8 +192,13 @@ button, [type="button"], [type="reset"], [type="submit"] {
 	gap: 10px;
 }
 
-#login_button, #register_button {
+#login_button, #register_button, #logout_form {
 	height: 80%;
+	width: fit-content;
+}
+
+#logout_button {
+	height: 100%;
 	width: fit-content;
 }
 
