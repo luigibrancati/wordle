@@ -1,4 +1,4 @@
-from fastapi import Depends, APIRouter, Form, HTTPException, Request
+from fastapi import Depends, APIRouter, Form, HTTPException, Request, Response
 from fastapi.responses import RedirectResponse
 from fastapi import status
 from ..db.database import  get_db
@@ -61,3 +61,12 @@ async def login_redirect(
 async def register(request: Request, username: Annotated[str, Form()], password: Annotated[str, Form()], db: Annotated[Session, Depends(get_db)]):
     await create_user(user=schemas.UserLogin(username=username, password=password), db=db)
     return await login_redirect(request=request, form_data=OAuth2PasswordRequestForm(username=username, password=password), db=db)
+
+
+@router.post("/logout")
+async def logout(
+    request: Request
+) -> str:
+    response = RedirectResponse(request.url_for("show_board"), status_code=status.HTTP_302_FOUND)
+    response.delete_cookie(auth_utils.manager.cookie_name)
+    return response
