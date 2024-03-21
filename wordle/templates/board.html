@@ -3,15 +3,13 @@
     <div class="Board-module_board">
         {% for i in range(status.num_rows) %}
             {% set curr_word = (i == status.curr_row) %}
-            <div class="Row-module_row" aria-label="Row {{ i + 1 }}" grid-index="{{ i + 1 }}">
-                {% for j in range(status.num_columns) %}
-                    <div class="Tile-module_tile" aria-label="Tile {{ j + 1 }}"  grid-index="{{ j + 1 }}" data-testid="tile" data-state="{{ status.grid_letters_status[i][j].value }}">
-                    {% if status.grid_letters[i][j] is not none %}
-                        {{ status.grid_letters[i][j] }}
-                    {% endif %}
-                    </div>
-                {% endfor %}
-            </div>
+            {% for j in range(status.num_columns) %}
+                <div class="Tile-module_tile" aria-label="Tile {{ i*5 + j + 1 }}"  grid-index-row="{{ i + 1 }}" grid-index-col="{{ j + 1 }}" data-testid="tile" data-state="{{ status.grid_letters_status[i][j].value }}">
+                {% if status.grid_letters[i][j] is not none %}
+                    {{ status.grid_letters[i][j] }}
+                {% endif %}
+                </div>
+            {% endfor %}
         {% endfor %}
     </div>
 </div>

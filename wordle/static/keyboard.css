@@ -1,0 +1,62 @@
+.Keyboard-module_row {
+	display: flex;
+	max-width: 100%;
+	margin: 0 auto 0.2rem;
+	touch-action: manipulation;
+}
+
+.Keyboard-module_keyboard {
+	max-height: 280px;
+	margin: 0 0.2rem;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+
+form, .Keyboard-module_key, .generic_button {
+	font-family: "nyt-franklin";
+	font-size: larger;
+	font-weight: bold;
+	border: 0;
+	padding: 0 5px;
+	margin: 0 6px 0 0;
+	height: 50px;
+	border-radius: 4px;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-transform: uppercase;
+	-webkit-tap-highlight-color: rgba(0,0,0,.3);
+	text-decoration: none;
+}
+
+.Keyboard-module_key[data-state="tbd"] {
+	background-color: #d3d6da;
+	color: black;
+}
+
+.Keyboard-module_key[data-state="present"] {
+	background-color: #c9b458;
+	color: black;
+}
+
+.Keyboard-module_key[data-state="correct"] {
+	background-color: #6aaa64;
+	color: black;
+}
+
+.Keyboard-module_key[data-state="absent"] {
+	background-color: #787c7e;
+	color: white;
+}
+
+@media (max-width: 800px) {
+	form, .Keyboard-module_key {
+		font-size: large;
+	}
+}
