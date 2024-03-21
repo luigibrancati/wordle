@@ -16,26 +16,6 @@
 	height: 360px;
 }
 
-/* .Row-module_row {
-	display: grid;
-	grid-gap: 5px;
-    float: none;
-    margin: 0;
-    padding: 0;
-    border: 0;
-} */
-
-/* .Row-module_row_current {
-	display: grid;
-	grid-template-columns: repeat(5, 1fr);
-	grid-gap: 5px;
-    float: none;
-    margin: 0;
-    padding: 0;
-    border: 0;
-	background-color: red;
-} */
-
 .Tile-module_tile {
 	font-family: "nyt-franklin";
 	width: 100%;

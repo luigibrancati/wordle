@@ -59,4 +59,6 @@ button, [type="button"], [type="reset"], [type="submit"] {
 	text-transform: uppercase;
 	-webkit-tap-highlight-color: rgba(0,0,0,.3);
 	text-decoration: none;
+	background-color: #d3d6da;
+	color: black;
 }

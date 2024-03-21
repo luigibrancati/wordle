@@ -13,7 +13,7 @@
 	user-select: none;
 }
 
-form, .Keyboard-module_key, .generic_button {
+form, .Keyboard-module_key {
 	font-family: "nyt-franklin";
 	font-size: larger;
 	font-weight: bold;
