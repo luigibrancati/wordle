@@ -61,11 +61,14 @@
 }
 
 @media (max-width: 800px) {
+
 	.AppHeader-module_login {
-	  flex-direction: column;
+		flex-direction: column;
+		align-items: baseline;
 	}
 
 	#header_selector, #header_login {
+		align-items: baseline;
 		font-size: x-small;
 	}
 
