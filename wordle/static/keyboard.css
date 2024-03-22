@@ -7,6 +7,7 @@
 
 .Keyboard-module_keyboard {
 	max-height: 280px;
+	max-width: 100%;
 	margin: 0 0.2rem;
 	-webkit-user-select: none;
 	-moz-user-select: none;
@@ -18,7 +19,7 @@ form, .Keyboard-module_key {
 	font-size: larger;
 	font-weight: bold;
 	border: 0;
-	padding: 0 5px;
+	padding: 0 3px;
 	margin: 0 6px 0 0;
 	height: 50px;
 	border-radius: 4px;
