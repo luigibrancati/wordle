@@ -174,7 +174,7 @@
                 <a id="login_button" class="generic_button" href="#login_popup">Login</a>
                 <a id="register_button" class="generic_button" href="#register_popup">Register</a>
                 {% else %}
-                <span>Logged in as <b>{{ user.username }}</b></span>
+                <span><b>{{ user.username }}</b></span>
                 <form id="logout_form" method="POST" action="{{ url_for('logout') }}">
                     <input id="logout_button" type="submit" value="logout" class="generic_button">
                 </form>

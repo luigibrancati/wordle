@@ -1,3 +1,16 @@
+:root {
+	--letter-empty-fg-color: white;
+	--letter-empty-bg-color: white;
+	--letter-tbd-fg-color: black;
+	--letter-tbd-bg-color: #d3d6da;
+	--letter-present-fg-color: black;
+	--letter-present-bg-color: #c9b458;
+	--letter-correct-fg-color: black;
+	--letter-correct-bg-color: #6aaa64;
+	--letter-absent-fg-color: black;
+	--letter-absent-bg-color: #787c7e;
+}
+
 @keyframes vibrate {
 	0% { transform: translate(0, 0); }
 	25% { transform: translate(0, -5px); }
@@ -59,6 +72,6 @@ button, [type="button"], [type="reset"], [type="submit"] {
 	text-transform: uppercase;
 	-webkit-tap-highlight-color: rgba(0,0,0,.3);
 	text-decoration: none;
-	background-color: #d3d6da;
+	background-color: var(--letter-tbd-bg-color);
 	color: black;
 }

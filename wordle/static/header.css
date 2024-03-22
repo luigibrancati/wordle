@@ -25,13 +25,19 @@
 }
 
 #login_button, #register_button, #logout_form {
-	height: 80%;
+	max-height: 80%;
 	width: fit-content;
+	font-size: inherit;
+}
+
+#logout_form {
+	max-width: 40%;
 }
 
 #logout_button {
 	height: 100%;
 	width: fit-content;
+	font-size: inherit;
 }
 
 #header_selector, #header_login {
@@ -65,5 +71,9 @@
 
 	#header_title {
 		font-size: x-large;
+	}
+
+	#logout_form {
+		max-height: 40%;
 	}
   }

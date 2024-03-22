@@ -37,23 +37,23 @@ form, .Keyboard-module_key {
 }
 
 .Keyboard-module_key[data-state="tbd"] {
-	background-color: #d3d6da;
-	color: black;
+	background-color: var(--letter-tbd-bg-color);
+	color: var(--letter-tbd-fg-color);
 }
 
 .Keyboard-module_key[data-state="present"] {
-	background-color: #c9b458;
-	color: black;
+	background-color: var(--letter-present-bg-color);
+	color: var(--letter-present-fg-color);
 }
 
 .Keyboard-module_key[data-state="correct"] {
-	background-color: #6aaa64;
-	color: black;
+	background-color: var(--letter-correct-bg-color);
+	color: var(--letter-correct-fg-color);
 }
 
 .Keyboard-module_key[data-state="absent"] {
-	background-color: #787c7e;
-	color: white;
+	background-color: var(--letter-absent-bg-color);
+	color: var(--letter-absent-fg-color);
 }
 
 @media (max-width: 800px) {
