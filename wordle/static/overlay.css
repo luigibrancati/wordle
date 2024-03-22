@@ -16,13 +16,14 @@
 }
 
 .popup {
-	margin: 70px auto;
-	padding: 20px;
+	margin: 5rem auto;
+	padding: 1rem;
 	background: #fff;
 	border-radius: 5px;
-	width: 30%;
+	max-width: 20%;
 	position: relative;
 	transition: all 5s ease-in-out;
+	font-size: inherit;
 }
 
 .popup h2 {
@@ -32,14 +33,15 @@
 }
 
 .popup .close {
-	position: absolute;
-	top: 20px;
-	right: 30px;
+	position: relative;
+	top: 0px;
+	right: 0px;
 	transition: all 200ms;
 	font-size: 30px;
 	font-weight: bold;
 	text-decoration: none;
 	color: #333;
+	float: right;
 }
 
 .popup .close:hover {
@@ -53,8 +55,17 @@
 
 #login_register_form {
 	text-align: center;
-	align-items: center;
 	display: block;
-	height: 150px;
-	padding: 10px;
+	height: 160px;
+	padding: 0.5rem;
 }
+
+@media (max-width: 800px) {
+	.popup {
+		max-width: 60%;
+	}
+
+	.popup .close {
+		font-size: inherit;
+	}
+  }

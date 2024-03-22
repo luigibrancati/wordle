@@ -4,11 +4,12 @@ from fastapi.staticfiles import StaticFiles
 from .db import models
 from .db.database import engine
 from .routers import board, debug, game, user, leaderboard, dashboard
-from .conf import STATIC_DIR
+from .conf import STATIC_DIR, TEMPLATES_DIR
 
 
 app = FastAPI()
 app.mount(str(STATIC_DIR), StaticFiles(directory=str(STATIC_DIR)), name="static")
+app.mount(str(TEMPLATES_DIR), StaticFiles(directory=str(TEMPLATES_DIR)), name="templates")
 
 
 models.Base.metadata.create_all(bind=engine)
