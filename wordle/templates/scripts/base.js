@@ -31,34 +31,6 @@ function removeLetter() {
     }
 }
 
-function postToBackendRedirect(url, body) {
-    fetch(
-        url,
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(body),
-            redirect: "follow"
-        }
-    )
-        .then(res => {
-            if (res.redirected) {
-                window.location.href = res.url;
-                return;
-            }
-            else
-                return res.text();
-        })
-        .then(data => {
-            document.getElementById("response").innerHTML = data;
-        })
-        .catch(error => {
-            console.error(error);
-        });
-}
-
 function rowEmpty() {
     const empty_tile_rows = document.querySelectorAll('.Tile-module_tile[data-state="empty"]');
     if (empty_tile_rows.length > 0) {
