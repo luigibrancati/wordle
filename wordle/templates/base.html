@@ -6,7 +6,11 @@
     <title>Wordle</title>
     <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', path='/overlay.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', path='/header.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', path='/navbar.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', path='/leaderboard.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', path='/keyboard.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', path='/board.css') }}" rel="stylesheet">
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script type="text/javascript">
         function fillTile(tile, letter) {
@@ -23,12 +27,10 @@
             const letter = self.innerHTML;
             const tbd_tiles = document.querySelectorAll('.Tile-module_tile[data-state="tbd"]');
             var empty_tile = document.querySelectorAll('.Tile-module_tile[data-state="empty"]')[0];
-            const empty_tile_row = empty_tile.parentElement;
             if (tbd_tiles.length > 0) {
                 const tbd_tile = tbd_tiles[tbd_tiles.length - 1];
-                const tbd_tile_row = tbd_tile.parentElement;
-                const tbd_row = parseInt(tbd_tile_row.getAttribute("grid-index"));
-                const empty_row = parseInt(empty_tile_row.getAttribute("grid-index"));
+                const tbd_row = parseInt(tbd_tile.getAttribute("grid-index-row"));
+                const empty_row = parseInt(empty_tile.getAttribute("grid-index-row"));
                 if ( tbd_row == empty_row ) {
                     fillTile(empty_tile, letter);
                 }
@@ -75,7 +77,7 @@
         function rowEmpty(){
             const empty_tile_rows = document.querySelectorAll('.Tile-module_tile[data-state="empty"]');
             if(empty_tile_rows.length > 0){
-                return empty_tile_rows[0].parentElement.getAttribute("grid-index");
+                return empty_tile_rows[0].getAttribute("grid-index-row");
             }
             return null;
         }
@@ -83,7 +85,7 @@
         function rowTbd(){
             const tbd_tile_rows = document.querySelectorAll('.Tile-module_tile[data-state="tbd"]');
             if(tbd_tile_rows.length > 0){
-                return tbd_tile_rows[tbd_tile_rows.length - 1].parentElement.getAttribute("grid-index");
+                return tbd_tile_rows[tbd_tile_rows.length - 1].getAttribute("grid-index-row");
             }
             return null;
         }
@@ -97,8 +99,8 @@
         function lastWordTiles() {
             if (rowFull()) {
                 const tbd_row = rowTbd();
-                const filled_row = document.querySelector('.Row-module_row[grid-index="'+tbd_row+'"]');
-                return [...filled_row.querySelectorAll('.Tile-module_tile')];
+                const filled_tiles = document.querySelectorAll('.Tile-module_tile[grid-index-row="'+tbd_row+'"]');
+                return [...filled_tiles];
             }
             return [];
         }
@@ -169,12 +171,12 @@
             <h1 id="header_title" class="AppHeader-module_title">Wordle</h1>
             <div id="header_login" class="AppHeader-module_login">
                 {% if user is none %}
-                <a id="login_button" class="Keyboard-module_key" data-state="tbd" href="#login_popup">Login</a>
-                <a id="register_button" class="Keyboard-module_key" data-state="tbd" href="#register_popup">Register</a>
+                <a id="login_button" class="generic_button" href="#login_popup">Login</a>
+                <a id="register_button" class="generic_button" href="#register_popup">Register</a>
                 {% else %}
-                <span>Logged in as <b>{{ user.username }}</b></span>
+                <span><b>{{ user.username }}</b></span>
                 <form id="logout_form" method="POST" action="{{ url_for('logout') }}">
-                    <input id="logout_button" type="submit" value="logout" class="Keyboard-module_key" data-state="tbd">
+                    <input id="logout_button" type="submit" value="logout" class="generic_button">
                 </form>
                 {% endif %}
             </div>

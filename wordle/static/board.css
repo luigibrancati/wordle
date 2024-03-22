@@ -1,0 +1,66 @@
+.Board-module_boardContainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+}
+
+.Board-module_board {
+	display: grid;
+	grid-template-rows: repeat(6, 1fr);
+	grid-template-columns: repeat(5, 1fr);
+	gap: 5px;
+	padding: 10px;
+	box-sizing: border-box;
+	width: 300px;
+	height: 360px;
+}
+
+.Tile-module_tile {
+	font-family: "nyt-franklin";
+	width: 100%;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 1em;
+	line-height: 1;
+	font-weight: bold;
+	vertical-align: middle;
+	box-sizing: border-box;
+	text-transform: uppercase;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+    border: 2px solid #d3d6da;
+    margin: 0;
+    padding: 0;
+}
+
+.Tile-module_tile[data-state="empty"] {
+	background-color: var(--letter-empty-bg-color);
+	color: var(--letter-empty-fg-color);
+}
+
+.Tile-module_tile[data-state="tbd"] {
+	background-color: var(--letter-empty-bg-color);
+	color: var(--letter-tbd-fg-color);
+}
+
+.Key-module_half {
+	flex: .5;
+}
+
+.Tile-module_tile[data-state="present"] {
+	background-color: var(--letter-present-bg-color);
+	color: var(--letter-present-fg-color);
+}
+
+.Tile-module_tile[data-state="correct"] {
+	background-color: var(--letter-correct-bg-color);
+	color: var(--letter-correct-fg-color);
+}
+
+.Tile-module_tile[data-state="absent"] {
+	background-color: var(--letter-absent-bg-color);
+	color: var(--letter-absent-fg-color);
+}

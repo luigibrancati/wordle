@@ -1,0 +1,63 @@
+.Keyboard-module_row {
+	display: flex;
+	max-width: 100%;
+	margin: 0 auto 0.2rem;
+	touch-action: manipulation;
+}
+
+.Keyboard-module_keyboard {
+	max-height: 280px;
+	max-width: 100%;
+	margin: 0 0.2rem;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+
+form, .Keyboard-module_key {
+	font-family: "nyt-franklin";
+	font-size: larger;
+	font-weight: bold;
+	border: 0;
+	padding: 0 3px;
+	margin: 0 6px 0 0;
+	height: 50px;
+	border-radius: 4px;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-transform: uppercase;
+	-webkit-tap-highlight-color: rgba(0,0,0,.3);
+	text-decoration: none;
+}
+
+.Keyboard-module_key[data-state="tbd"] {
+	background-color: var(--letter-tbd-bg-color);
+	color: var(--letter-tbd-fg-color);
+}
+
+.Keyboard-module_key[data-state="present"] {
+	background-color: var(--letter-present-bg-color);
+	color: var(--letter-present-fg-color);
+}
+
+.Keyboard-module_key[data-state="correct"] {
+	background-color: var(--letter-correct-bg-color);
+	color: var(--letter-correct-fg-color);
+}
+
+.Keyboard-module_key[data-state="absent"] {
+	background-color: var(--letter-absent-bg-color);
+	color: var(--letter-absent-fg-color);
+}
+
+@media (max-width: 800px) {
+	form, .Keyboard-module_key {
+		font-size: large;
+	}
+}
