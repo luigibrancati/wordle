@@ -6,7 +6,7 @@ from fastapi import status
 from ..db.database import get_db
 from .. import schemas
 from sqlalchemy.orm import Session
-from ..auth import auth_utils
+from ..auth import auth_utils, auth_forms
 from typing import Annotated
 from ..game_status import game_status
 from ..words import words

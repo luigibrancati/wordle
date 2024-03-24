@@ -17,6 +17,7 @@ python-jose = {extras = ["cryptography"], version = "^3.3.0"}
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
 plotly = "^5.20.0"
 pandas = "^2.2.1"
+starlette-wtf = "^0.4.3"
 
 
 [build-system]

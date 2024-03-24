@@ -1,0 +1,39 @@
+.login, .register {
+	margin: 4rem auto;
+	padding: 1rem;
+	background: #fff;
+	border-radius: 5px;
+	/* max-width: 20%; */
+	position: relative;
+	transition: all 5s ease-in-out;
+	font-size: inherit;
+}
+
+.login h2, .register h2 {
+	margin-top: 0;
+	color: #333;
+	font-family: Tahoma, Arial, sans-serif;
+}
+
+.login .content, .register .content {
+	max-height: 30%;
+	overflow: auto;
+}
+
+#login_form, #register_form {
+	text-align: center;
+	display: block;
+	height: 160px;
+	padding: 0.5rem;
+}
+
+.error_message {
+	color: red;
+	font-size: small;
+}
+
+@media (max-width: 800px) {
+	.login, .register {
+		max-width: 60%;
+	}
+  }
