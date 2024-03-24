@@ -5,6 +5,7 @@ from .auth_conf import SECRET_KEY, ACCESS_TOKEN_EXPIRE_MINUTES
 from fastapi_login import LoginManager
 from datetime import timedelta
 
+
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 manager = LoginManager(SECRET_KEY, "/login", use_cookie=True, use_header=False, default_expiry=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
 
@@ -19,7 +20,7 @@ def get_password_hash(password):
 
 def authenticate_user(username: str, password: str, db: Session):
     user = crud.get_user_by_name(username, db)
-    if not user:
+    if user is None:
         return False
     if not verify_password(password, user.hashed_password):
         return False

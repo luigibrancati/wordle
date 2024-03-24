@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wordle</title>
     <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', path='/overlay.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', path='/login_register.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', path='/header.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', path='/navbar.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', path='/leaderboard.css') }}" rel="stylesheet">
@@ -22,8 +22,8 @@
             <h1 id="header_title" class="AppHeader-module_title">Wordle</h1>
             <div id="header_login" class="AppHeader-module_login">
                 {% if user is none %}
-                <a id="login_button" class="generic_button" href="#login_popup">Login</a>
-                <a id="register_button" class="generic_button" href="#register_popup">Register</a>
+                <a id="login_button" class="generic_button" href="{{ url_for('login') }}">Login</a>
+                <a id="register_button" class="generic_button" href="{{ url_for('register') }}">Register</a>
                 {% else %}
                 <span><b>{{ user.username }}</b></span>
                 <form id="logout_form" method="POST" action="{{ url_for('logout') }}">

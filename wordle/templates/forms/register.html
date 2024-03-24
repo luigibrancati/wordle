@@ -1,4 +1,43 @@
-{% set id = 'register_popup' %}
-{% set action = url_for('register') %}
-{% set submit_label = 'Register' %}
-{% include 'forms/form.html' %}
+{% extends 'base.html' %}
+{% block main %}
+<div>
+    <div class="register">
+        <form id="register_form" method="POST" action="{{ url_for('register') }}">
+            <div>
+                {{ form.username.label }}:
+            </div>
+            <div>
+                {{ form.username(placeholder='username') }}
+                {% if form.username.errors -%}
+                    <br>
+                    <span class="error_message">{{ form.username.errors[0] }}</span>
+                {%- endif %}
+            </div>
+            <br><br>
+            <div>
+                {{ form.password.label }}:
+            </div>
+            <div>
+                {{ form.password(placeholder='Password') }}
+                {% if form.password.errors -%}
+                    <br>
+                    <span class="error_message">{{ form.password.errors[0] }}</span>
+                {%- endif %}
+            </div>
+            <br><br>
+            <div>
+                {{ form.password_confirm.label }}:
+            </div>
+            <div>
+                {{ form.password_confirm(placeholder='Confirm password') }}
+                {% if form.password_confirm.errors -%}
+                    <br>
+                    <span class="error_message">{{ form.password_confirm.errors[0] }}</span>
+                {%- endif %}
+            </div>
+            <br><br>
+            <input type="submit" value="Register">
+        </form>
+    </div>
+</div>
+{% endblock %}
